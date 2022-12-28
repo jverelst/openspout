@@ -747,7 +747,6 @@ final class WriterTest extends TestCase
 
         self::assertNotFalse($xmlContents);
         self::assertStringContainsString('Great comment', $xmlContents, '');
-        self::assertStringContainsString('Second part', $xmlContents, '');
         self::assertStringContainsString('<b/>', $xmlContents, '');
         self::assertStringContainsString('<sz val="12"/>', $xmlContents, '');
         self::assertStringContainsString('<color rgb="FF0000"/>', $xmlContents, '');
