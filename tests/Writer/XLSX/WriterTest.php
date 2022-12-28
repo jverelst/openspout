@@ -734,6 +734,10 @@ final class WriterTest extends TestCase
             ->setFontColor('FF0000')
         ;
 
+        $textrun2 = new \OpenSpout\Common\Entity\Comment\TextRun('Second part');
+        $textrun2->setItalic(true);
+        $comment->addTextRun($textrun2);
+
         $cell->setComment($comment);
         $row = new Row([Cell::fromValue('something'), $cell, Cell::fromValue('else')]);
         $writer->addRow($row);
@@ -745,6 +749,7 @@ final class WriterTest extends TestCase
 
         self::assertNotFalse($xmlContents);
         self::assertStringContainsString('Great comment', $xmlContents, '');
+        self::assertStringContainsString('Second part', $xmlContents, '');
         self::assertStringContainsString('<b/>', $xmlContents, '');
         self::assertStringContainsString('<sz val="12"/>', $xmlContents, '');
         self::assertStringContainsString('<color rgb="FF0000"/>', $xmlContents, '');
