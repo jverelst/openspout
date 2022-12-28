@@ -9,6 +9,8 @@ use DateTimeZone;
 use DOMElement;
 use finfo;
 use OpenSpout\Common\Entity\Cell;
+use OpenSpout\Common\Entity\Comment\Comment;
+use OpenSpout\Common\Entity\Comment\TextRun;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Common\Exception\IOException;
 use OpenSpout\Reader\Wrapper\XMLReader;
@@ -716,29 +718,25 @@ final class WriterTest extends TestCase
         $writer->openToFile($resourcePath);
 
         $cell = Cell::fromValue('Test');
-        $comment = new \OpenSpout\Common\Entity\Comment\Comment();
+        $comment = new Comment();
 
-        $comment->setHeight('200px')
-            ->setWidth('400px')
-            ->setMarginTop('1.5pt')
-            ->setMarginLeft('59.25pt')
-            ->setFillColor('#F0F0F0')
-            ->setVisible(false)
-        ;
+        $comment->height = '200px';
+        $comment->width = '400px';
+        $comment->marginTop = '1.5pt';
+        $comment->marginLeft = '59.25pt';
+        $comment->fillColor = '#F0F0F0';
+        $comment->visible = false;
 
-        $paragraph = $comment->createTextRun('Great comment')
-            ->setBold(true)
-            ->setItalic(false)
-            ->setFontSize(12)
-            ->setFontName('Arial')
-            ->setFontColor('FF0000')
-        ;
+        $textRun = new TextRun('Great comment');
+        $textRun->bold = true;
+        $textRun->italic = false;
+        $textRun->fontSize = 12;
+        $textRun->fontName = 'Arial';
+        $textRun->fontColor = 'FF0000';
 
-        $textrun2 = new \OpenSpout\Common\Entity\Comment\TextRun('Second part');
-        $textrun2->setItalic(true);
-        $comment->addTextRun($textrun2);
+        $comment->addTextRun($textRun);
 
-        $cell->setComment($comment);
+        $cell->comment = $comment;
         $row = new Row([Cell::fromValue('something'), $cell, Cell::fromValue('else')]);
         $writer->addRow($row);
         $writer->close();
