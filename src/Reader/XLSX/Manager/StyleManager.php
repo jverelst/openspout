@@ -178,6 +178,7 @@ class StyleManager implements StyleManagerInterface
     {
         $this->customNumberFormats = [];
         $this->stylesAttributes = [];
+        $this->stylesArray = [];
 
         $xmlReader = new XMLReader();
 
@@ -325,8 +326,6 @@ class StyleManager implements StyleManagerInterface
      */
     private function extractStyleAttributes(XMLReader $xmlReader): void
     {
-        $this->stylesArray = [];
-
         while ($xmlReader->read()) {
             if ($xmlReader->isPositionedOnStartingNode(self::XML_NODE_XF)) {
                 $numFmtId = $xmlReader->getAttribute(self::XML_ATTRIBUTE_NUM_FMT_ID);
