@@ -27,6 +27,7 @@ class StyleManager implements StyleManagerInterface
     /**
      * Attributes used to find relevant information in the styles XML file.
      */
+    public const XML_ATTRIBUTE_COUNT = 'count';
     public const XML_ATTRIBUTE_NUM_FMT_ID = 'numFmtId';
     public const XML_ATTRIBUTE_FORMAT_CODE = 'formatCode';
     public const XML_ATTRIBUTE_APPLY_NUMBER_FORMAT = 'applyNumberFormat';
@@ -185,15 +186,25 @@ class StyleManager implements StyleManagerInterface
         if ($xmlReader->openFileInZip($this->filePath, $this->stylesXMLFilePath)) {
             while ($xmlReader->read()) {
                 if ($xmlReader->isPositionedOnStartingNode(self::XML_NODE_FONTS)) {
-                    $this->extractFonts($xmlReader);
+                    if ($xmlReader->getAttribute(self::XML_ATTRIBUTE_COUNT) != "0") {
+                        $this->extractFonts($xmlReader);
+                    }
                 } elseif ($xmlReader->isPositionedOnStartingNode(self::XML_NODE_FILLS)) {
-                    $this->extractFills($xmlReader);
+                    if ($xmlReader->getAttribute(self::XML_ATTRIBUTE_COUNT) != "0") {
+                        $this->extractFills($xmlReader);
+                    }
                 } elseif ($xmlReader->isPositionedOnStartingNode(self::XML_NODE_BORDERS)) {
-                    $this->extractBorders($xmlReader);
+                    if ($xmlReader->getAttribute(self::XML_ATTRIBUTE_COUNT) != "0") {
+                        $this->extractBorders($xmlReader);
+                    }
                 } elseif ($xmlReader->isPositionedOnStartingNode(self::XML_NODE_NUM_FMTS)) {
-                    $this->extractNumberFormats($xmlReader);
+                    if ($xmlReader->getAttribute(self::XML_ATTRIBUTE_COUNT) != "0") {
+                        $this->extractNumberFormats($xmlReader);
+                    }
                 } elseif ($xmlReader->isPositionedOnStartingNode(self::XML_NODE_CELL_XFS)) {
-                    $this->extractStyleAttributes($xmlReader);
+                    if ($xmlReader->getAttribute(self::XML_ATTRIBUTE_COUNT) != "0") {
+                        $this->extractStyleAttributes($xmlReader);
+                    }
                 }
             }
 
@@ -295,7 +306,16 @@ class StyleManager implements StyleManagerInterface
 
                 if ('solid' === $type) {
                     $fgNode = $pattern->getElementsByTagName('fgColor')[0];
-                    $this->fills[] = $fgNode->getAttribute('rgb');
+                    if ($fgNode != null) {
+                        $color = $fgNode->getAttribute('rgb');
+                        if ($color !== "") {
+                            $this->fills[] = $color;
+                        } else {
+                            $this->fills[] = null;
+                        }
+                    } else {
+                        $this->fills[] = null;
+                    }
                 } else {
                     $this->fills[] = null;
                 }

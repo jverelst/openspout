@@ -136,11 +136,19 @@ class StyleRegistry extends CommonStyleRegistry
     }
 
     /**
-     * @return null|int Fill ID associated to the given style ID
+     * @return null|int Border ID associated to the given style ID
      */
     public function getBorderIdForStyleId(int $styleId): ?int
     {
         return $this->styleIdToBorderMappingTable[$styleId] ?? null;
+    }
+
+    /**
+     * @return null|int XF (Cellstyle) ID associated to the given style ID
+     */
+    public function getXFIdForStyleId(int $styleId): ?int
+    {
+        return 0;
     }
 
     /**

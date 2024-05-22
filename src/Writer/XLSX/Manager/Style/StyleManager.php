@@ -234,8 +234,9 @@ final class StyleManager extends CommonStyleManager
             $fillId = $this->getFillIdForStyleId($styleId);
             $borderId = $this->getBorderIdForStyleId($styleId);
             $numFmtId = $this->getFormatIdForStyleId($styleId);
+            $xfId = $this->getXFIdForStyleId($styleId);
 
-            $content .= '<xf numFmtId="'.$numFmtId.'" fontId="'.$styleId.'" fillId="'.$fillId.'" borderId="'.$borderId.'" xfId="0"';
+            $content .= '<xf numFmtId="'.$numFmtId.'" fontId="'.$styleId.'" fillId="'.$fillId.'" borderId="'.$borderId.'" xfId="'.$xfId.'"';
 
             if ($style->shouldApplyFont()) {
                 $content .= ' applyFont="1"';
@@ -294,6 +295,18 @@ final class StyleManager extends CommonStyleManager
         $isDefaultStyle = (0 === $styleId);
 
         return $isDefaultStyle ? 0 : ($this->styleRegistry->getFillIdForStyleId($styleId) ?? 0);
+    }
+
+    /**
+     * Returns the XF ID associated to the given style ID.
+     */
+    private function getXFIdForStyleId(int $styleId): int
+    {
+        // For the default style (ID = 0), we don't want to override the fill.
+        // Otherwise all cells of the spreadsheet will have a background color.
+        $isDefaultStyle = (0 === $styleId);
+
+        return $isDefaultStyle ? 0 : ($this->styleRegistry->getXFIdForStyleId($styleId) ?? 0);
     }
 
     /**
