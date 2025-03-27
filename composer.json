@@ -1,5 +1,5 @@
 {
-    "name": "openspout/openspout",
+    "name": "jverelst/openspout",
     "description": "PHP Library to read and write spreadsheet files (CSV, XLSX and ODS), in a fast and scalable way",
     "license": "MIT",
     "type": "library",
@@ -24,11 +24,16 @@
         {
             "name": "Adrien Loison",
             "email": "adrien@box.com"
+        },
+        {
+            "name": "Johannes Verelst",
+            "email": "(hidden)@(hidden)"
         }
+
     ],
-    "homepage": "https://github.com/openspout/openspout",
+    "homepage": "https://github.com/jverelst/openspout",
     "require": {
-        "php": "~8.0.0 || ~8.1.0 || ~8.2.0",
+        "php": "~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
         "ext-dom": "*",
         "ext-fileinfo": "*",
         "ext-filter": "*",
